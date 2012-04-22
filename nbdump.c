@@ -28,22 +28,22 @@ int main(int argc, char *argv[])
 
 	sockfd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
 	if (-1 == sockfd) {
-        perror("socket");
+		perror("socket");
 		goto error;
 	}
 
 	while (1) {
-        ssize_t pktlen = read(sockfd, pktbuf, sizeof(pktbuf));
-        if (pktlen < 0) {
-            perror("read");
-            continue;
-        }
-        if (pktlen > 0) {
-            print_packet(pktbuf, pktlen);
-        }
+		ssize_t pktlen = read(sockfd, pktbuf, sizeof(pktbuf));
+		if (pktlen < 0) {
+			perror("read");
+			continue;
+		}
+		if (pktlen > 0) {
+			print_packet(pktbuf, pktlen);
+		}
 	}
 
-    close(sockfd);
+	close(sockfd);
 
 out:
 	return res;
