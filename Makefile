@@ -10,5 +10,5 @@ all: $(TOOLS)
 clean:
 	-rm $(TOOLS)
 
-nbdump: nbdump.c
+nbdump: nbdump.c config.h
 	$(CC) -o $@ $^

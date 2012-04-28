@@ -7,10 +7,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
-// The default size is enought to hold a whole ethernet frame (< 1524 bytes)
-#ifndef PACKET_BUFFER_SIZE
-#define PACKET_BUFFER_SIZE 2048
-#endif
+#include "config.h"
 
 static void print_packet(const unsigned char *pkt, size_t pktlen)
 {
