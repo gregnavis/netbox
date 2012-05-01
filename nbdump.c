@@ -18,7 +18,7 @@ static void print_packet(const unsigned char *pkt, size_t pktlen)
 	putchar('\n');
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	unsigned char pktbuf[PACKET_BUFFER_SIZE];
 	int sockfd, res = 0;
@@ -49,3 +49,4 @@ error:
 	res = 1;
 	goto out;
 }
+

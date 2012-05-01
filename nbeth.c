@@ -69,7 +69,7 @@ static void process_line(void)
 	print_remaining();
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	while (!feof(stdin)) {
 		hexdumpptr = fgets(hexdump, sizeof(hexdump), stdin);
@@ -84,3 +84,4 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
