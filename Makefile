@@ -11,7 +11,7 @@ clean:
 	-rm $(TOOLS)
 
 nbdump: nbdump.c config.h
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o nbdump nbdump.c
 
 nbeth: nbeth.c config.h
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o nbeth nbeth.c
