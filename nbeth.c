@@ -3,83 +3,103 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include <getopt.h>
+#include <arpa/inet.h>
+#include <netinet/if_ether.h>
+
 #include "config.h"
 
-static char hexdump[HEXDUMP_BUFFER_SIZE];
-static char *hexdumpptr;
+static unsigned char pkt[PACKET_BUFFER_SIZE];
+static size_t pktlen;
+static int keep_flag = 0;
+
+static void dumppkt(size_t offset)
+{
+	while (offset < pktlen) {
+		printf("%02x", pkt[offset++]);
+	}
+}
+
+static void printpkt(void)
+{
+	struct ethhdr *eth = (struct ethhdr *) pkt;
+	printf("eth.dst=%02x:%02x:%02x:%02x:%02x:%02x ",
+		eth->h_dest[0],
+		eth->h_dest[1],
+		eth->h_dest[2],
+		eth->h_dest[3],
+		eth->h_dest[4],
+		eth->h_dest[5]);
+	printf("eth.src=%02x:%02x:%02x:%02x:%02x:%02x ",
+		eth->h_source[0],
+		eth->h_source[1],
+		eth->h_source[2],
+		eth->h_source[3],
+		eth->h_source[4],
+		eth->h_source[5]);
+	printf("eth.proto=%04x ", htons(eth->h_proto));
+	dumppkt(sizeof(*eth));
+}
 
 static void error(const char *format, ...)
 {
-	va_list valist;
-
-	va_start(valist, format);
-	vfprintf(stderr, format, valist);
+	va_list va;
+	va_start(va, format);
+	fprintf(stderr, "error: ");
+	vfprintf(stderr, format, va);
 	fputc('\n', stderr);
-	va_end(valist);
-
+	va_end(va);
 	exit(1);
 }
 
-static void print_char(void)
+int main(int argc, char *argv[])
 {
-	if (!*hexdumpptr) {
-		error("no more characters");
-	}
-	putchar(*hexdumpptr++);
-}
+	char buf[HEXDUMP_BUFFER_SIZE], *ptr;
+	int i;
 
-static void print_byte(void)
-{
-	print_char();
-	print_char();
-}
-
-static void print_remaining(void)
-{
-	hexdumpptr += printf("%s", hexdumpptr);
-}
-
-static void print_packet(const char *format)
-{
-	for (; *format; format++) {
-		if (*format != '%') {
-			putchar(*format);
-			continue;
-		}
-
-		switch(*(++format)) {
-		case 'x':
-			print_byte();
+	while ((i = getopt(argc, argv, "k")) != -1) {
+		switch (i) {
+		case 'k':
+			keep_flag = 1;
 			break;
 
 		default:
-			error("invalid format specifier %c", *format);
+			exit(1);
 			break;
 		}
 	}
 
-	putchar(' ');
-}
-
-static void process_line(void)
-{
-	print_packet("eth.dst=%x:%x:%x:%x:%x:%x");
-	print_packet("eth.src=%x:%x:%x:%x:%x:%x");
-	print_packet("eth.typelen=%x%x");
-	print_remaining();
-}
-
-int main()
-{
-	while (!feof(stdin)) {
-		hexdumpptr = fgets(hexdump, sizeof(hexdump), stdin);
+	while (!feof(stdin) && fgets(buf, sizeof(buf), stdin)) {
 		if (ferror(stdin)) {
 			clearerr(stdin);
 			perror("fgets");
 			continue;
 		}
 
-		process_line();
+		ptr = strchr(buf, '\n');
+		if (ptr) {
+			*ptr = '\0';
+		} else if (!feof(stdin)) {
+			error("line is longer than the maximum of %d characters\n", MAXIMUM_LINE_SIZE);
+		}
+
+		ptr = strrchr(buf, ' ');
+		if (ptr) {
+			if (keep_flag) {
+				*ptr = '\0';
+				printf("%s ", buf);
+			}
+			ptr++;
+			memmove(buf, ptr, strlen(ptr) + 1);
+		}
+
+		for (pktlen = 0; buf[2 * pktlen] && buf[2 * pktlen + 1]; pktlen++) {
+			sscanf(buf + 2 * pktlen, "%02x", &i);
+			pkt[pktlen] = i;
+		}
+
+		printpkt();
+		putchar('\n');
 	}
 
 	return 0;
