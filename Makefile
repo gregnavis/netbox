@@ -1,17 +1,18 @@
 CC?=gcc
 CFLAGS?=-Wall -Wextra -Werror -std=c99
 
-TOOLS=nbdump nbeth
+TOOLS=nbdump
+COMMON_TOOLS=nbeth
 
 .PHONY: all
-all: $(TOOLS)
+all: $(TOOLS) $(COMMON_TOOLS)
 
 .PHONY: clean
 clean:
-	-rm $(TOOLS)
+	-rm $(TOOLS) $(COMMON_TOOLS)
 
-nbdump: nbdump.c config.h
-	$(CC) $(CFLAGS) -o nbdump nbdump.c
+$(TOOLS): %: %.c config.h
+	$(CC) $(CFLAGS) -o $@ $(filter %.c,$^)
 
-nbeth: nbeth.c config.h
-	$(CC) $(CFLAGS) -o nbeth nbeth.c
+$(COMMON_TOOLS): %: %.c common.c common.h config.h
+	$(CC) $(CFLAGS) -o $@ $(filter %.c,$^)
