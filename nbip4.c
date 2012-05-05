@@ -1,41 +1,41 @@
+#define _BSD_SOURCE
+
 #include <stdio.h>
 
+#include <arpa/inet.h>
 #include <netinet/ip.h>
 
 #include "config.h"
 #include "common.h"
 
-#define getbyte(value, byte) ((value >> (byte * 8)) & 0xFF)
-
 void printpkt(void)
 {
-	struct iphdr *iphdr = (struct iphdr *) pkt;
+	struct ip *iphdr = (struct ip *) pkt;
 
 	printf("ip.version=%d "
 			"ip.ihl=%d "
+			"ip.tos=%02x "
 			"ip.length=%d "
 			"ip.id=%d "
+			"ip.flags=%d%c%c "
 			"ip.offset=%d "
 			"ip.ttl=%d "
 			"ip.protocol=%d "
 			"ip.checksum=%04x "
-			"ip.src=%d.%d.%d.%d "
-			"ip.dst=%d.%d.%d.%d ",
-			iphdr->version,
-			iphdr->ihl,
-			iphdr->tot_len,
-			iphdr->id,
-			iphdr->frag_off,
-			iphdr->ttl,
-			iphdr->protocol,
-			iphdr->check,
-			getbyte(iphdr->saddr, 0),
-			getbyte(iphdr->saddr, 1),
-			getbyte(iphdr->saddr, 2),
-			getbyte(iphdr->saddr, 3),
-			getbyte(iphdr->daddr, 0),
-			getbyte(iphdr->daddr, 1),
-			getbyte(iphdr->daddr, 2),
-			getbyte(iphdr->daddr, 3));
-	dumppkt(iphdr->ihl * 4);
+			"ip.src=%s ",
+			iphdr->ip_v,
+			iphdr->ip_hl,
+			iphdr->ip_tos,
+			iphdr->ip_len,
+			iphdr->ip_id,
+			iphdr->ip_off & IP_RF,
+			flag('d', iphdr->ip_off & IP_DF),
+			flag('m', iphdr->ip_off & IP_MF),
+			iphdr->ip_off & IP_OFFMASK,
+			iphdr->ip_ttl,
+			iphdr->ip_p,
+			iphdr->ip_sum,
+			inet_ntoa(iphdr->ip_src));
+	printf("ip.dst=%s ", inet_ntoa(iphdr->ip_dst));
+	dumppkt(iphdr->ip_hl * 4);
 }
