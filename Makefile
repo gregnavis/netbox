@@ -2,7 +2,7 @@ CC?=gcc
 CFLAGS?=-Wall -Wextra -Werror -std=c99
 
 TOOLS=nbdump
-COMMON_TOOLS=nbeth nbip4
+COMMON_TOOLS=nbeth nbip4 nbprint
 
 .PHONY: all
 all: $(TOOLS) $(COMMON_TOOLS)
