@@ -12,15 +12,15 @@ void printpkt(void)
 {
 	struct ip *iphdr = (struct ip *) pkt;
 
-	printf("ip.version=%d "
-			"ip.ihl=%d "
+	printf("ip.version=%u "
+			"ip.ihl=%u "
 			"ip.tos=%02x "
-			"ip.length=%d "
-			"ip.id=%d "
-			"ip.flags=%d%c%c "
-			"ip.offset=%d "
-			"ip.ttl=%d "
-			"ip.protocol=%d "
+			"ip.length=%u "
+			"ip.id=%u "
+			"ip.flags=%u%c%c "
+			"ip.offset=%u "
+			"ip.ttl=%u "
+			"ip.protocol=%u "
 			"ip.checksum=%04x "
 			"ip.src=%s ",
 			iphdr->ip_v,
