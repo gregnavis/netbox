@@ -6,3 +6,12 @@ void dumppkt(size_t offset);
 void error(const char *format, ...);
 void printpkt(void);
 char flag(char name, int value);
+
+struct namevalue {
+	char *name;
+	int value;
+};
+
+extern const char *value_to_name(struct namevalue *namevalues,
+		int value,
+		const char *_default);

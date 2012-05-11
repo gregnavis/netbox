@@ -89,3 +89,20 @@ char flag(char name, int value)
 	return value ? toupper(name) : tolower(name);
 }
 
+const char *value_to_name(struct namevalue *namevalues,
+		int value,
+		const char *_default)
+{
+	struct namevalue *ptr;
+	const char *name = _default;
+
+	for (ptr = namevalues; ptr->name; ptr++) {
+		if (ptr->value == value) {
+			name = ptr->name;
+			break;
+		}
+	}
+
+	return name;
+}
+

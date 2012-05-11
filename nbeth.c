@@ -7,32 +7,12 @@
 #include "config.h"
 #include "common.h"
 
-struct namevalue {
-	char *name;
-	int value;
-};
-
 static struct namevalue proto_names[] = {
 	{ "ip4", 0x0800 },
 	{ "arp", 0x0806 },
 	{ "rarp", 0x8035 },
 	{ NULL, 0 },
 };
-
-static const char *proto_name(int proto)
-{
-	struct namevalue *p;
-	const char *proto_name = "unknown";
-
-	for (p = proto_names; p->name; p++) {
-		if (p->value == proto) {
-			proto_name = p->name;
-			break;
-		}
-	}
-
-	return proto_name;
-}
 
 void printpkt(void)
 {
@@ -53,7 +33,9 @@ void printpkt(void)
 		eth->h_source[3],
 		eth->h_source[4],
 		eth->h_source[5]);
-	printf("eth.proto %04x %s ", proto, proto_name(proto));
+	printf("eth.proto %04x %s ",
+			proto,
+			value_to_name(proto_names, proto, "unknown"));
 	dumppkt(sizeof(*eth));
 }
 
