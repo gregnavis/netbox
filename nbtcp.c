@@ -11,15 +11,15 @@ void printpkt(void)
 {
 	struct tcphdr *tcphdr = (struct tcphdr *) pkt;
 
-	printf("tcp.src=%u "
-			"tcp.dst=%u "
-			"tcp.seq=%u "
-			"tcp.ack=%u "
-			"tcp.offset=%u "
-			"tcp.flags=%c%c%c%c%c%c "
-			"tcp.window=%u "
-			"tcp.check=%04x "
-			"tcp.urg=%u ",
+	printf("tcp.src %u "
+			"tcp.dst %u "
+			"tcp.seq %u "
+			"tcp.ack %u "
+			"tcp.offset %u "
+			"tcp.flags %c%c%c%c%c%c "
+			"tcp.window %u "
+			"tcp.check %04x "
+			"tcp.urg %u ",
 			tcphdr->th_sport,
 			tcphdr->th_dport,
 			tcphdr->th_seq,

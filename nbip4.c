@@ -12,17 +12,17 @@ void printpkt(void)
 {
 	struct ip *iphdr = (struct ip *) pkt;
 
-	printf("ip.version=%u "
-			"ip.ihl=%u "
-			"ip.tos=%02x "
-			"ip.length=%u "
-			"ip.id=%u "
-			"ip.flags=%u%c%c "
-			"ip.offset=%u "
-			"ip.ttl=%u "
-			"ip.protocol=%u "
-			"ip.checksum=%04x "
-			"ip.src=%s ",
+	printf("ip.version %u "
+			"ip.ihl %u "
+			"ip.tos %02x "
+			"ip.length %u "
+			"ip.id %u "
+			"ip.flags %u%c%c "
+			"ip.offset %u "
+			"ip.ttl %u "
+			"ip.protocol %u "
+			"ip.checksum %04x "
+			"ip.src %s ",
 			iphdr->ip_v,
 			iphdr->ip_hl,
 			iphdr->ip_tos,
@@ -36,6 +36,6 @@ void printpkt(void)
 			iphdr->ip_p,
 			iphdr->ip_sum,
 			inet_ntoa(iphdr->ip_src));
-	printf("ip.dst=%s ", inet_ntoa(iphdr->ip_dst));
+	printf("ip.dst %s ", inet_ntoa(iphdr->ip_dst));
 	dumppkt(iphdr->ip_hl * 4);
 }
