@@ -20,7 +20,7 @@ static void print_packet(const unsigned char *pkt, size_t pktlen)
 
 int main()
 {
-	unsigned char pktbuf[PACKET_BUFFER_SIZE];
+	unsigned char pktbuf[MAX_PACKET_SIZE];
 	int sockfd, res = 0;
 
 	sockfd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));

@@ -7,9 +7,9 @@
 #include "config.h"
 #include "common.h"
 
-void printpkt(void)
+void process_packet(void)
 {
-	struct udphdr *udphdr = (struct udphdr *) pkt;
+	struct udphdr *udphdr = (struct udphdr *) packet;
 
 	printf("udp.src %u "
 			"udp.dst %u "
@@ -19,5 +19,6 @@ void printpkt(void)
 			udphdr->uh_dport,
 			udphdr->uh_ulen,
 			udphdr->uh_sum);
-	dumppkt(sizeof(*udphdr));
+	print_data(sizeof(*udphdr));
 }
+

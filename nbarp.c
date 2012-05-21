@@ -8,25 +8,20 @@
 #include "config.h"
 #include "common.h"
 
-static struct namevalue htype_names[] = {
-	{ "ethernet", 1 },
-	{ NULL, 0 },
+static struct value_name htype_names[] = {
+	pair(ARPHRD_ETHER, "eth"),
+	end_pair
 };
 
-static struct namevalue ptype_names[] = {
-	{ "ip4", 0x0800 },
-	{ NULL, 0 },
+static struct value_name op_names[] = {
+	pair(ARPOP_REQUEST, "request"),
+	pair(ARPOP_REPLY, "reply"),
+	end_pair
 };
 
-static struct namevalue op_names[] = {
-	{ "request", 1 },
-	{ "reply", 2 },
-	{ NULL, 0 },
-};
-
-void printpkt(void)
+void process_packet(void)
 {
-	struct arphdr *arphdr = (struct arphdr *) pkt;
+	struct arphdr *arphdr = (struct arphdr *) packet;
 	int htype = htons(arphdr->ar_hrd),
 	    ptype = htons(arphdr->ar_pro),
 	    op = htons(arphdr->ar_op);
@@ -39,11 +34,12 @@ void printpkt(void)
 			htype,
 			value_to_name(htype_names, htype, "unknown"),
 			ptype,
-			value_to_name(ptype_names, ptype, "unknown"),
+			value_to_name(eth_protocols, ptype, "unknown"),
 			arphdr->ar_hln,
 			arphdr->ar_pln,
 			op,
 			value_to_name(op_names, op, "unknown"));
 
-	dumppkt(sizeof(*arphdr));
+	print_data(sizeof(*arphdr));
 }
+

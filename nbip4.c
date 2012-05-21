@@ -8,18 +8,16 @@
 #include "config.h"
 #include "common.h"
 
-static struct namevalue proto_names[] = {
-	{ "icmp", 0x01 },
-	{ "ip4", 0x04 },
-	{ "tcp", 0x06 },
-	{ "udp", 0x11 },
-	{ "ip6", 0x29 },
-	{ NULL, 0 },
+static struct value_name protocols[] = {
+	pair(IPPROTO_ICMP, "icmp"),
+	pair(IPPROTO_TCP, "tcp"),
+	pair(IPPROTO_UDP, "udp"),
+	end_pair
 };
 
-void printpkt(void)
+void process_packet(void)
 {
-	struct ip *iphdr = (struct ip *) pkt;
+	struct ip *iphdr = (struct ip *) packet;
 
 	printf("ip.version %u "
 			"ip.ihl %u "
@@ -43,9 +41,10 @@ void printpkt(void)
 			iphdr->ip_off & IP_OFFMASK,
 			iphdr->ip_ttl,
 			iphdr->ip_p,
-			value_to_name(proto_names, iphdr->ip_p, "unknown"),
+			value_to_name(protocols, iphdr->ip_p, "unknown"),
 			iphdr->ip_sum,
 			inet_ntoa(iphdr->ip_src));
 	printf("ip.dst %s ", inet_ntoa(iphdr->ip_dst));
-	dumppkt(iphdr->ip_hl * 4);
+	print_data(iphdr->ip_hl * 4);
 }
+

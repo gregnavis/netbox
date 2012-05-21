@@ -7,9 +7,9 @@
 #include "config.h"
 #include "common.h"
 
-void printpkt(void)
+void process_packet(void)
 {
-	struct tcphdr *tcphdr = (struct tcphdr *) pkt;
+	struct tcphdr *tcphdr = (struct tcphdr *) packet;
 
 	printf("tcp.src %u "
 			"tcp.dst %u "
@@ -34,5 +34,6 @@ void printpkt(void)
 			tcphdr->th_win,
 			tcphdr->th_sum,
 			tcphdr->th_urp);
-	dumppkt(sizeof(*tcphdr));
+	print_data(sizeof(*tcphdr));
 }
+

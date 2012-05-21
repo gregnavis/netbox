@@ -1,7 +1,6 @@
-// The default size is enought to hold a whole ethernet frame (<= 1524 bytes)
-#ifndef PACKET_BUFFER_SIZE
-#define PACKET_BUFFER_SIZE 2048
+#ifndef MAX_PACKET_SIZE
+#define MAX_PACKET_SIZE 2048
 #endif
 
-#define HEXDUMP_BUFFER_SIZE (2 * PACKET_BUFFER_SIZE)
-#define MAXIMUM_LINE_SIZE (HEXDUMP_BUFFER_SIZE - 2)
+#define MAX_HEXDUMP_SIZE (2 * MAX_PACKET_SIZE)
+#define MAX_LINE_SIZE (MAX_HEXDUMP_SIZE - 1)
