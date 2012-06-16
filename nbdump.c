@@ -11,6 +11,8 @@
 
 static void print_packet(const unsigned char *pkt, size_t pktlen)
 {
+	printf("eth:");
+
 	while (pktlen--) {
 		printf("%02x", *pkt++);
 	}

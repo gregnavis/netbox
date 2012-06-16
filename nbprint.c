@@ -3,6 +3,8 @@
 #include "config.h"
 #include "common.h"
 
+const char *expected_protocol = NULL;
+
 void process_packet(void)
 {
 	size_t i;

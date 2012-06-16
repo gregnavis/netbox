@@ -8,6 +8,8 @@
 #include "config.h"
 #include "common.h"
 
+const char *expected_protocol = "arp";
+
 static struct value_name htype_names[] = {
 	pair(ARPHRD_ETHER, "eth"),
 	end_pair

@@ -8,6 +8,8 @@
 #include "config.h"
 #include "common.h"
 
+const char *expected_protocol = "ip4";
+
 static struct value_name protocols[] = {
 	pair(IPPROTO_ICMP, "icmp"),
 	pair(IPPROTO_TCP, "tcp"),

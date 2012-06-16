@@ -7,6 +7,8 @@
 #include "config.h"
 #include "common.h"
 
+const char *expected_protocol = "tcp";
+
 void process_packet(void)
 {
 	struct tcphdr *tcphdr = (struct tcphdr *) packet;

@@ -16,6 +16,9 @@ extern unsigned char packet[MAX_PACKET_SIZE];
 /* Packet length in bytes */
 extern size_t packet_size;
 
+/* Expected protocol name. */
+extern const char *expected_protocol;
+
 /* Value to name mapping. */
 struct value_name {
 	int value;

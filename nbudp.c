@@ -7,6 +7,8 @@
 #include "config.h"
 #include "common.h"
 
+const char *expected_protocol = "udp";
+
 void process_packet(void)
 {
 	struct udphdr *udphdr = (struct udphdr *) packet;

@@ -93,13 +93,28 @@ void reset_packet(void)
 
 void parse_hexdump(void)
 {
-	char *p = strchr(hexdump, ':');
+	char *p = strchr(hexdump, ':'), *protocol;
 	int byte;
 
 	if (p) {
+		*p = '\0';
 		p++;
+		protocol = hexdump;
 	} else {
 		p = hexdump;
+		protocol = NULL;
+	}
+
+	if (expected_protocol) {
+		if (!protocol) {
+			fatal("expected a protocol specifier");
+		}
+
+		if (strcmp(protocol, expected_protocol) != 0) {
+			fatal("expected protocol %s instead of %s",
+					expected_protocol,
+					protocol);
+		}
 	}
 
 	while (*p && *(p + 1)) {
