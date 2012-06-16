@@ -18,6 +18,7 @@ static struct value_name protocols[] = {
 void process_packet(void)
 {
 	struct ip *iphdr = (struct ip *) packet;
+	const char *protocol = value_to_name(protocols, iphdr->ip_p, "unknown");
 
 	printf("ip.version %u "
 			"ip.ihl %u "
@@ -41,10 +42,10 @@ void process_packet(void)
 			iphdr->ip_off & IP_OFFMASK,
 			iphdr->ip_ttl,
 			iphdr->ip_p,
-			value_to_name(protocols, iphdr->ip_p, "unknown"),
+			protocol,
 			iphdr->ip_sum,
 			inet_ntoa(iphdr->ip_src));
 	printf("ip.dst %s ", inet_ntoa(iphdr->ip_dst));
-	print_data(iphdr->ip_hl * 4);
+	print_data(iphdr->ip_hl * 4, protocol);
 }
 

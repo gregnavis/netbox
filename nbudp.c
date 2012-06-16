@@ -19,6 +19,6 @@ void process_packet(void)
 			udphdr->uh_dport,
 			udphdr->uh_ulen,
 			udphdr->uh_sum);
-	print_data(sizeof(*udphdr));
+	print_data(sizeof(*udphdr), "unknown");
 }
 

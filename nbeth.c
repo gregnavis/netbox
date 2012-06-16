@@ -16,6 +16,6 @@ void process_packet(void)
 			eth_ntoa(eth->h_source),
 			htons(eth->h_proto),
 			value_to_name(eth_protocols, htons(eth->h_proto), "default"));
-	print_data(sizeof(*eth));
+	print_data(sizeof(*eth), "eth");
 }
 

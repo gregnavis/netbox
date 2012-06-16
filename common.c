@@ -125,8 +125,9 @@ char *eth_ntoa(unsigned char mac[6])
 	return buf;
 }
 
-void print_data(size_t offset)
+void print_data(size_t offset, const char *protocol)
 {
+	printf("%s:", protocol);
 	while (offset < packet_size) {
 		printf("%02x", packet[offset]);
 		offset++;

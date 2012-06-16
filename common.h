@@ -69,7 +69,7 @@ char flag(char symbol, int value);
 char *eth_ntoa(unsigned char mac[6]);
 
 /* Print a hexdump of the packet data starting at the specified offset. */
-void print_data(size_t offset);
+void print_data(size_t offset, const char *protocol);
 
 /* todo */
 void process_packet(void);

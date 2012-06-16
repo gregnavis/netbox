@@ -34,6 +34,6 @@ void process_packet(void)
 			tcphdr->th_win,
 			tcphdr->th_sum,
 			tcphdr->th_urp);
-	print_data(sizeof(*tcphdr));
+	print_data(sizeof(*tcphdr), "unknown");
 }
 
