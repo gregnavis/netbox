@@ -1,7 +1,7 @@
 CC?=gcc
 CFLAGS?=-Wall -Wextra -Werror -std=c99
 
-TOOLS=nbdump
+TOOLS=nbdump netbox
 COMMON_TOOLS=nbeth nbip4 nbtcp nbudp nbarp nbprint
 
 .PHONY: all
