@@ -1,6 +1,9 @@
 /* MAC address string size (12 digits + 5 colons + NULL). */
 #define MAC_BUFFER_SIZE 18
 
+/* IPv4 address string size (12 digits + 3 dots + NULL). */
+#define IP4_BUFFER_SIZE 16
+
 /* Return the length of the array a. */
 #define lengthof(a) (sizeof(a) / sizeof(*(a)))
 
@@ -70,6 +73,9 @@ char flag(char symbol, int value);
 
 /* Convert an ethernet MAC address to a string. */
 char *eth_ntoa(unsigned char mac[6]);
+
+/* Convert an IPv4 address to a string. */
+char *ip4_ntoa(unsigned char ip[4]);
 
 /* Print a hexdump of the packet data starting at the specified offset. */
 void print_data(size_t offset, const char *protocol);

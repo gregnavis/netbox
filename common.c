@@ -140,6 +140,13 @@ char *eth_ntoa(unsigned char mac[6])
 	return buf;
 }
 
+char *ip4_ntoa(unsigned char ip[4])
+{
+	static char buf[IP4_BUFFER_SIZE];
+	sprintf(buf, "%u.%u.%u.%u", ip[0], ip[1], ip[2], ip[3]);
+	return buf;
+}
+
 void print_data(size_t offset, const char *protocol)
 {
 	printf("%s:", protocol);

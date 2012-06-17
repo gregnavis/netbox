@@ -3,7 +3,8 @@
 #include <stdio.h>
 
 #include <arpa/inet.h>
-#include <net/if_arp.h>
+#include <netinet/if_ether.h>
+#include <netinet/ether.h>
 
 #include "config.h"
 #include "common.h"
@@ -23,10 +24,10 @@ static struct value_name op_names[] = {
 
 void process_packet(void)
 {
-	struct arphdr *arphdr = (struct arphdr *) packet;
-	int htype = htons(arphdr->ar_hrd),
-	    ptype = htons(arphdr->ar_pro),
-	    op = htons(arphdr->ar_op);
+	struct ether_arp *arphdr = (struct ether_arp *) packet;
+	int htype = htons(arphdr->ea_hdr.ar_hrd),
+	    ptype = htons(arphdr->ea_hdr.ar_pro),
+	    op = htons(arphdr->ea_hdr.ar_op);
 	const char *protocol = value_to_name(op_names, op, "unknown");
 
 	printf("arp.htype %04x %s "
@@ -38,10 +39,15 @@ void process_packet(void)
 			value_to_name(htype_names, htype, "unknown"),
 			ptype,
 			value_to_name(eth_protocols, ptype, "unknown"),
-			arphdr->ar_hln,
-			arphdr->ar_pln,
+			arphdr->ea_hdr.ar_hln,
+			arphdr->ea_hdr.ar_pln,
 			op,
 			protocol);
+
+	printf("arp.sha %s ", eth_ntoa(arphdr->arp_sha));
+	printf("arp.spa %s ", ip4_ntoa(arphdr->arp_spa));
+	printf("arp.tha %s ", eth_ntoa(arphdr->arp_tha));
+	printf("arp.tpa %s ", ip4_ntoa(arphdr->arp_tpa));
 
 	print_data(sizeof(*arphdr), protocol);
 }
