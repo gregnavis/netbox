@@ -4,12 +4,16 @@ CFLAGS?=-Wall -Wextra -Werror -std=c99
 TOOLS=nbdump netbox
 COMMON_TOOLS=nbeth nbip4 nbtcp nbudp nbarp nbprint
 
-.PHONY: all
+.PHONY: all clean test
+.IGNORE: clean
+
 all: $(TOOLS) $(COMMON_TOOLS)
 
-.PHONY: clean
 clean:
-	-rm $(TOOLS) $(COMMON_TOOLS)
+	rm $(TOOLS) $(COMMON_TOOLS)
+
+test:
+	bats ./tests
 
 $(TOOLS): %: %.c config.h
 	$(CC) $(CFLAGS) -o $@ $(filter %.c,$^)
