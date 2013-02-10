@@ -125,6 +125,10 @@ void parse_hexdump(void)
 
 		add_to_packet(byte);
 	}
+
+	if (!packet_size) {
+		fatal("no data");
+	}
 }
 
 char flag(char symbol, int value)
@@ -155,6 +159,7 @@ void print_data(size_t offset, const char *protocol)
 		offset++;
 	}
 }
+
 int main()
 {
 	int c = 0;
