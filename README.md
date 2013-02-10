@@ -15,7 +15,7 @@ line.
 
 For example:
 
-```bash
+```
 # nbdump > dump
 ```
 
@@ -28,7 +28,7 @@ eth:<packet data>
 The prefix `eth:` means that they are Ethernet packets and should be processed
 with `nbeth`. In order to process them do the following:
 
-```bash
+```
 $ cat dump | nbeth
 ```
 
@@ -46,7 +46,7 @@ The field `eth.proto` is a protocol number. In the example above it equals to
 
 In order to process the IPv4 run:
 
-```bash
+```
 $ cat dump | nbeth | nbip4
 ```
 
@@ -100,7 +100,7 @@ The usage above has two major drawbacks:
 
 To solve these problems just run:
 
-```bash
+```
 $ cat dump | netbox
 ```
 
