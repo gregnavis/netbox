@@ -25,7 +25,7 @@ function run_nbeth() {
 }
 
 @test 'complain about too big Ethernet frames' {
-    run_nbeth "eth:$(repeat_string 3000 a)"
+    run_nbeth "eth:$(repeat_string 5000 a)"
     [ "$status" -eq 1 ]
-    [ "$output" = 'Fatal: the maximum number of 2048 packet bytes is exceeded' ]
+    [ "$output" = 'Fatal: packet is longer than the maximum of 2048 bytes' ]
 }

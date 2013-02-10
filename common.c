@@ -57,8 +57,8 @@ void fatal(const char *format, ...)
 void add_to_hexdump(char c)
 {
 	if (hexdump_size == lengthof(hexdump)) {
-		fatal("hexdump is longer than the maximum of %d",
-				lengthof(hexdump));
+		fatal("packet is longer than the maximum of %d bytes",
+				MAX_PACKET_SIZE);
 	}
 
 	hexdump[hexdump_size++] = c;
@@ -167,12 +167,16 @@ int main()
 	while (c != EOF) {
 		c = getchar();
 
-		if ((c == EOF || c == '\n') && hexdump_size) {
-			parse_hexdump();
-			process_packet();
-			reset_packet();
-			reset_hexdump();
-			putchar('\n');
+		if ((c == EOF || c == '\n')) {
+			if (hexdump_size) {
+				parse_hexdump();
+				process_packet();
+				reset_packet();
+				reset_hexdump();
+				putchar('\n');
+			} else if (c == '\n') {
+				fatal("no protocol specifier");
+			}
 		} else {
 			add_to_hexdump(c);
 		}
@@ -185,4 +189,3 @@ int main()
 
 	return 0;
 }
-
