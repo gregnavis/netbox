@@ -1,6 +1,8 @@
 netbox - simple packet analysis tools
 =====================================
 
+[![Build Status](https://travis-ci.org/grn/netbox.png?branch=master)](https://travis-ci.org/grn/netbox)
+
 netbox is a set of simple programs for inspecting the network traffic at the
 data link layer, network layer and transport layer. Its main design goal is
 simplicity and lack of dependencies on external libraries, so it can be used
