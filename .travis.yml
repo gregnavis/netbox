@@ -1,0 +1,8 @@
+language: c
+compiler:
+  - gcc
+before_install:
+  - git clone https://github.com/sstephenson/bats.git
+  - cd bats
+  - ./install.sh /usr/local
+script: make all test
